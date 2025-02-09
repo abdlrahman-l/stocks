@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { get } from "@/utils/fetcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,26 +23,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const tickers =  await  get(`${process.env.NEXT_PUBLIC_POLYGON_API_URL}v3/reference/tickers`, {
-    params: {
-      active: true,
-      limit: 100,
-    },
-    nextOptions: {
-      cache: 'force-cache'
-    }
-  })
-
-  console.log({
-    tickers
-  })
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <main className="mx-auto max-w-3xl p-2 space-y-3">
+          {children}
+        </main>
       </body>
     </html>
   );
