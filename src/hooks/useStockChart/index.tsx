@@ -3,13 +3,16 @@ import useTickers from "../useTickers";
 import { useQueries } from "@tanstack/react-query";
 import { StockPriceResponse } from "@/utils/interface/stock";
 import { get } from "@/utils/fetcher";
+import { useState } from "react";
 
 type StockData = {
     date: string;
     [key: string]: number | string;
 };
 
-const processData = (stockResponse: StockPriceResponse[]): StockData[] => {
+type PriceType = 'c' | 'o' | 'h' | 'l'
+
+const processData = (stockResponse: StockPriceResponse[], priceType: PriceType): StockData[] => {
     const stockMap: { [key: string]: StockData } = {};
 
     stockResponse.forEach(stock => {
@@ -19,7 +22,7 @@ const processData = (stockResponse: StockPriceResponse[]): StockData[] => {
                 if (!stockMap[date]) {
                     stockMap[date] = { date };
                 }
-                stockMap[date][`${stock.ticker}-close`] = result.c;
+                stockMap[date][`${stock.ticker}-${priceType}`] = result[priceType];
             });
         }
     });
@@ -35,19 +38,22 @@ const useStockChart = () => {
 
     const tickers = useTickers();
 
-    const { pending, data: stockData } = useQueries({
+    const [priceType, setPriceType] = useState<'c' | 'o' | 'h' | 'l'>('c')
+
+    const { data: stockData, tickerErrors } = useQueries({
         queries: tickers.map(ticker => {
             return {
                 queryKey: ["stock", ticker.value, startTs, endTs],
-                queryFn: () => get(`/api/stock/${ticker.value}`, {
+                queryFn: () => get<{
+                    success: boolean,
+                    data?: StockPriceResponse,
+                    message: string,
+                  }>(`/api/stock/${ticker.value}`, {
                     params: {
                         startTs,
                         endTs,
                     }
                 }),
-                onError: (e) => {
-                    console.log({e})
-                },
                 keepPreviousData: true,
                 refetchOnMount: false,
                 refetchOnWindowFocus: false,
@@ -62,15 +68,22 @@ const useStockChart = () => {
                 data: results.map(result => {
                     return result.data?.data as StockPriceResponse
                 }),
-                pending: results.some((result) => result.isPending),
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                tickerErrors: results.reduce((acc, curr, i) => curr.isError ? [
+                    ...acc,
+                    tickers[i].value
+                ] : acc, []) as string[]
             }
         }
     })
 
     return {
-        isPending: pending,
-        chartData: !!stockData ? processData(stockData) : null,
+        chartData: !!stockData ? processData(stockData, priceType) : undefined,
         stockData: stockData,
+        setPriceType,
+        priceType,
+        tickerErrors
     }
 }
 

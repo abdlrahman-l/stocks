@@ -9,7 +9,8 @@ const useTickers = () => {
   const tickerStringParams = tickerParams.toString()
 
   const tickers = useMemo(() => 
-    tickersOptions.filter(t => tickerParams.includes(t.value)), 
+    tickersOptions.filter(t => tickerParams.includes(t.value)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [tickerStringParams])
 
   return tickers

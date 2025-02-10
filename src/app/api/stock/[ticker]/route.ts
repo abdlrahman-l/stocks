@@ -1,20 +1,21 @@
 // import { get } from "@/utils/fetcher"
 import { get } from "@/utils/fetcher";
+import { StockPriceResponse } from "@/utils/interface/stock";
 import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 3600;
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { ticker: string } }
+  { params }: { params: Promise<{ ticker: string }> }
 ) {
-  const { ticker } = params;
+  const { ticker } = await params;
   const searchParams = request.nextUrl.searchParams;
   const startTs = searchParams.get("startTs");
   const endTs = searchParams.get("endTs");
 
   try {
-    const data = await get(
+    const data = await get<StockPriceResponse>(
       `${process.env.NEXT_PUBLIC_STOCK_API_URL}v2/aggs/ticker/${ticker}/range/1/day/${startTs}/${endTs}`,
       {
         params: {
@@ -30,8 +31,8 @@ export async function GET(
       data,
       message: "Successfully",
     });
-  } catch (error: any) {
-    
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error :any) {
     if (error.response && error.response.status === 429) {
       return NextResponse.json(
         {
