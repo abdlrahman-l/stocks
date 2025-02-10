@@ -11,12 +11,12 @@ const SelectStocks = () => {
 
   const searchParams = useSearchParams()
   const pathname = usePathname();
-  const stockParams = searchParams.getAll('stocks')
+  const stockParams = searchParams.getAll('ticker')
 
   const onValueChange = (value: string[]) => {
     const params = new URLSearchParams()
     value.forEach(v => {
-        params.append('stocks', v)
+        params.append('ticker', v)
     })
 
     router.push(pathname + '?' + params.toString())

@@ -1,6 +1,6 @@
 import DatePicker from "@/components/DatePicker";
 import SelectStocks from "@/components/SelectStocks";
-import Test from "@/components/test";
+import StockChart from "@/components/StockChart";
 import { Suspense } from "react";
 export default async function Home() {
 
@@ -12,7 +12,9 @@ export default async function Home() {
           <SelectStocks />
         </Suspense>
       </div>
-      <Test />
+      <Suspense>
+        <StockChart />
+      </Suspense>
     </div>
   );
 }

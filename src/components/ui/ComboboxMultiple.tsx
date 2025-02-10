@@ -82,14 +82,18 @@ export function ComboboxMultiple({
           )
         }
       </ComboboxAnchor>
-      <ComboboxContent>
-        <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
-        {options.map((option) => (
-          <ComboboxItem key={option.key} value={option.value}>
-            {option.label}
-          </ComboboxItem>
-        ))}
-      </ComboboxContent>
+      {
+        !disabled && (
+          <ComboboxContent>
+            <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
+            {options.map((option) => (
+              <ComboboxItem key={option.key} value={option.value}>
+                {option.label}
+              </ComboboxItem>
+            ))}
+          </ComboboxContent>
+        )
+      }
     </Combobox>
   );
 }

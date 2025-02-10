@@ -1,7 +1,6 @@
 export async function fetcher<T>(url: string, options: RequestInit = {}): Promise<T> {
-    const combinedUrl = `${url}&apiKey=${process.env.STOCK_API_KEY}`;
     try {
-      const response = await fetch(`${url}&apiKey=${process.env.STOCK_API_KEY}`, {
+      const response = await fetch(url, {
         ...options,
         headers: {
           'Content-Type': 'application/json',
@@ -10,7 +9,7 @@ export async function fetcher<T>(url: string, options: RequestInit = {}): Promis
       });
   
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status} url: ${combinedUrl}`);
+        throw new Error(`HTTP error! Status: ${response.status} url: ${url}`);
       }
   
       return await response.json() as T;
