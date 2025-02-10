@@ -16,9 +16,9 @@ export const tickersOptions = [
         key: 'AMZN',
     },
     {
-        value: 'FB',
-        label: '(FB) Apple Inc',
-        key: `FB`,
+        value: 'META',
+        label: '(META) Meta Platforms, Inc',
+        key: `META`,
     },
     {
         value: 'TSLA',
@@ -27,7 +27,7 @@ export const tickersOptions = [
     },
     {
         value: 'NVDA',
-        label: '(NVDA) Tesla, Inc',
+        label: '(NVDA) NVIDIA Corporation',
         key: `NVDA`,
     },
     {

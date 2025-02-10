@@ -12,7 +12,7 @@ const DateContext = React.createContext<
 >(undefined);
 
 const defaulStartDate = new Date()
-defaulStartDate.setDate(defaulStartDate.getDate() - 1)
+defaulStartDate.setDate(defaulStartDate.getDate() - 7)
 const defaulEndDate = new Date()
 
 export function DateProvider({ children }: { children: React.ReactNode }) {

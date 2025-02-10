@@ -1,5 +1,6 @@
 
 type ApiResponse<T> = {
+    ticker?: string;
     queryCount?: number; // Optional, as it only appears in the second response
     resultsCount?: number; // Optional, as it only appears in the second response
     adjusted?: boolean; // Optional, as it only appears in the second response
