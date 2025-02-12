@@ -6,11 +6,11 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col ">
-      <div className="flex h-full gap-x-3 min-h-28">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <DatePicker />
-        <Suspense>
-          <SelectStocks />
-        </Suspense>
+          <Suspense>
+            <SelectStocks />
+          </Suspense>
       </div>
       <Suspense>
         <StockChart />

@@ -43,11 +43,10 @@ export function ComboboxMultiple({
     <Combobox
       value={value}
       onValueChange={onValueChange}
-      className="w-full h-full"
       multiple
     >
       <ComboboxLabel>{label}</ComboboxLabel>
-      <ComboboxAnchor className={cn("h-full min-h-10 flex-wrap px-3 py-2", {
+      <ComboboxAnchor className={cn("flex-wrap px-3 py-2", {
         'data-[focused]:ring-0': disabled
       })}>
         {
@@ -72,10 +71,10 @@ export function ComboboxMultiple({
             <>
               <ComboboxInput
                 placeholder="Select options (max 3)"
-                className="h-auto min-w-20 flex-1"
+                className="h-auto min-w-20 flex-1 text-sm md:text-md"
                 disabled={disabled}
               />
-              <ComboboxTrigger className="absolute top-3 right-2">
+              <ComboboxTrigger className="">
                 <ChevronDown className="h-4 w-4" />
               </ComboboxTrigger>
             </>

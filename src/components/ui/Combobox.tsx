@@ -27,7 +27,7 @@ const ComboboxAnchor = React.forwardRef<
   <ComboboxPrimitive.Anchor
     ref={ref}
     className={cn(
-      "relative flex h-9 w-full items-center justify-between gap-2 rounded-md border border-slate-200 bg-transparent px-3 py-2 shadow-sm data-[focused]:ring-1 data-[focused]:ring-slate-950 dark:border-slate-800 dark:data-[focused]:ring-slate-300",
+      "relative flex w-full items-center justify-between gap-2 rounded-md border border-slate-200 bg-transparent px-3 py-2 shadow-sm data-[focused]:ring-1 data-[focused]:ring-slate-950 dark:border-slate-800 dark:data-[focused]:ring-slate-300",
       className,
     )}
     {...props}
@@ -42,7 +42,7 @@ const ComboboxInput = React.forwardRef<
   <ComboboxPrimitive.Input
     ref={ref}
     className={cn(
-      "flex h-9 w-full rounded-md bg-transparent text-base placeholder:text-slate-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:placeholder:text-slate-400",
+      "flex w-full rounded-md bg-transparent text-base placeholder:text-slate-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:placeholder:text-slate-400",
       className,
     )}
     {...props}

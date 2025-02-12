@@ -16,21 +16,21 @@ const SelectStocks = () => {
   const onValueChange = (value: string[]) => {
     const params = new URLSearchParams()
     value.forEach(v => {
-        params.append('ticker', v)
+      params.append('ticker', v)
     })
 
     router.push(pathname + '?' + params.toString())
   }
 
   return (
-   <ComboboxMultiple 
-    options={tickersOptions}
-    onValueChange={onValueChange}
-    value={stockParams}
-    label='Tickers'
-    emptyMessage='Tickers not found.'
-    disabled={stockParams.length >= 3}
-   />
+      <ComboboxMultiple
+        options={tickersOptions}
+        onValueChange={onValueChange}
+        value={stockParams}
+        label='Tickers'
+        emptyMessage='Tickers not found.'
+        disabled={stockParams.length >= 3}
+      />
   )
 }
 
