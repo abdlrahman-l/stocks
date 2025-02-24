@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
       headers: [
         {
           key: "Access-Control-Allow-Origin",
-          value: "https://usstocksexchangesss.vercel.app"
+          value: "https://usstocksexchange.vercel.app"
         },
         {
           key: "Access-Control-Allow-Method",
