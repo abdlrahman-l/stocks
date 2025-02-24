@@ -1,9 +1,9 @@
 import { useDate } from "@/app/date-context";
 import useTickers from "../useTickers";
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, UseQueryResult } from "@tanstack/react-query";
 import { StockPriceResponse } from "@/utils/interface/stock";
 import { get } from "@/utils/fetcher";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type StockData = {
     date: string;
@@ -40,6 +40,24 @@ const useStockChart = () => {
 
     const [priceType, setPriceType] = useState<'c' | 'o' | 'h' | 'l'>('c')
 
+    const combineQueries = useCallback((results: UseQueryResult<{
+        success: boolean;
+        data?: StockPriceResponse;
+        message: string;
+    }, Error>[]) => {
+        return {
+            data: results.map(result => {
+                return result.data?.data as StockPriceResponse
+            }),
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            tickerErrors: results.reduce((acc, curr, i) => curr.isError ? [
+                ...acc,
+                tickers[i].value
+            ] : acc, []) as string[]
+        }
+    }, [tickers])
+
     const { data: stockData, tickerErrors } = useQueries({
         queries: tickers.map(ticker => {
             return {
@@ -59,23 +77,11 @@ const useStockChart = () => {
                 refetchOnWindowFocus: false,
                 cacheTime: 1000 * 60 * 15, // 15 minutes
                 staleTime: Infinity,
-                enabled: !!value.startDate && !!value.startDate,
+                enabled: !!value.startDate && !!value.endDate,
                 retry: false,
             };
         }),
-        combine: (results) => {
-            return {
-                data: results.map(result => {
-                    return result.data?.data as StockPriceResponse
-                }),
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                tickerErrors: results.reduce((acc, curr, i) => curr.isError ? [
-                    ...acc,
-                    tickers[i].value
-                ] : acc, []) as string[]
-            }
-        }
+        combine: combineQueries,
     })
 
     return {

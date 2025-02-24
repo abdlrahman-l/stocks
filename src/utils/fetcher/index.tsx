@@ -9,7 +9,9 @@ export async function fetcher<T>(url: string, options: RequestInit = {}): Promis
       });
   
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status} url: ${url} message: ${response.statusText}`);
+        const error = new Error(`HTTP error! Status: ${response.status} url: ${url} message: ${response.statusText}`);
+        error.response = response;
+        throw error
       }
   
       return await response.json() as T;
