@@ -30,12 +30,6 @@ export async function GET(
       success: true,
       data,
       message: "Successfully",  
-    }, {
-      headers: {
-        'Access-Control-Allow-Origin': 'https://usstocksexchanges.vercel.app/',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      }
     });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error :any) {
