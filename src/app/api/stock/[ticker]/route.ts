@@ -29,7 +29,13 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data,
-      message: "Successfully",
+      message: "Successfully",  
+    }, {
+      headers: {
+        'Access-Control-Allow-Origin': 'https://usstocksexchanges.vercel.app/',
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
     });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error :any) {

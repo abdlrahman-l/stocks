@@ -10,6 +10,8 @@ export async function fetcher<T>(url: string, options: RequestInit = {}): Promis
   
       if (!response.ok) {
         const error = new Error(`HTTP error! Status: ${response.status} url: ${url} message: ${response.statusText}`);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         error.response = response;
         throw error
       }
