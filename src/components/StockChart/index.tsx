@@ -5,7 +5,7 @@ import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Legend, Line } f
 import useStockChart from '@/hooks/useStockChart';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 import useBreakpoint from '@/hooks/useBreakpoint';
-
+import Skeleton from '../ui/skeleton';
 const lineColor = [
   '#FF004D',
   '#20716A',
@@ -15,11 +15,31 @@ const lineColor = [
 const StockChart = () => {
   const isClient = useIsClient();
 
-  const { chartData, stockData, setPriceType, priceType, tickerErrors } = useStockChart()
+  const { chartData, stockData, setPriceType, priceType, tickerErrors, isPending } = useStockChart()
 
   const { xs } = useBreakpoint()
 
   if (!isClient) return null
+
+  if (isPending) {
+    return (
+      <div className='space-y-2 my-5'>
+          <div className='flex space-x-2'>
+              {new Array(4).fill(0).map((_, i) => {
+                return (
+                  <Skeleton key={i} className='h-10 w-14'/>
+                )
+              })}
+          </div>
+          <Skeleton 
+            className='w-full' 
+            style={{
+              height: xs ? 200 : 400,
+            }}
+          />
+      </div>
+    );
+  }
 
   return (
     <>

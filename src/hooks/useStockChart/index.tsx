@@ -40,6 +40,8 @@ const useStockChart = () => {
 
     const [priceType, setPriceType] = useState<'c' | 'o' | 'h' | 'l'>('c')
 
+    const isEnabled = !!value.startDate && !!value.endDate;
+
     const combineQueries = useCallback((results: UseQueryResult<{
         success: boolean;
         data?: StockPriceResponse;
@@ -54,11 +56,12 @@ const useStockChart = () => {
             tickerErrors: results.reduce((acc, curr, i) => curr.isError ? [
                 ...acc,
                 tickers[i].value
-            ] : acc, []) as string[]
+            ] : acc, []) as string[],
+            isPending: results.every(curr => curr.isPending)
         }
     }, [tickers])
 
-    const { data: stockData, tickerErrors } = useQueries({
+    const { data: stockData, tickerErrors, isPending } = useQueries({
         queries: tickers.map(ticker => {
             return {
                 queryKey: ["stock", ticker.value, startTs, endTs],
@@ -77,7 +80,7 @@ const useStockChart = () => {
                 refetchOnWindowFocus: false,
                 cacheTime: 1000 * 60 * 15, // 15 minutes
                 staleTime: Infinity,
-                enabled: !!value.startDate && !!value.endDate,
+                enabled: isEnabled,
                 retry: false,
             };
         }),
@@ -89,7 +92,8 @@ const useStockChart = () => {
         stockData: stockData,
         setPriceType,
         priceType,
-        tickerErrors
+        tickerErrors,
+        isPending: isEnabled && tickers.length > 0 && isPending,
     }
 }
 
