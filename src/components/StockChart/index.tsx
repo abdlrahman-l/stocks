@@ -1,7 +1,7 @@
 'use client';
 import useIsClient from '@/hooks/useIsClient';
 import React from 'react'
-import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Legend, Line } from 'recharts';
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Legend, Line, CartesianGrid } from 'recharts';
 import useStockChart from '@/hooks/useStockChart';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 import useBreakpoint from '@/hooks/useBreakpoint';
@@ -71,12 +71,13 @@ const StockChart = () => {
         }
         {
           tickerErrors && tickerErrors.length > 0 && (
-            <h4 className='text-red-500 text-xs md:text-md'>{`Failed getting ${tickerErrors.join(',')} data. Please wait a minute`}</h4>
+            <h4 className='text-red-500 text-xs md:text-base'>{`Failed getting ${tickerErrors.join(',')} data. Please wait a minute`}</h4>
           )
         }
       </div>
       <ResponsiveContainer width="100%" height={xs ? 200 : 400 } className='text-xs md:text-sm' >
         <LineChart data={chartData} margin={{ left: -20, right: 10, }}>
+          <CartesianGrid strokeDasharray="5" />
           <XAxis dataKey="date"/>
           <YAxis />
           <Tooltip />
